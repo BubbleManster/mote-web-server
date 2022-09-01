@@ -16,7 +16,7 @@ def methodfn():
         data=request.get_json()  # parse as JSON
         if data.get("clear")=="true":
             os.system("python ./scripts/all-off.py")
-        os.system(f"python ./scripts/rgb.py {data.get('color')}") 
+        os.system(f"python ./scripts/rgb.py {data.get('color').replace(',', ' ')}") 
             
         return 'Success', 200
 

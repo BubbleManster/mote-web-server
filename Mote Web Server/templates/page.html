@@ -1,0 +1,71 @@
+<style>
+    .btnc {
+        padding-right: 15px;
+        padding-left: 15px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        font-size: large;
+        border-color: rgb(91, 91, 91);
+    }
+
+    .btns {
+        padding-right: 15px;
+        padding-left: 15px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        font-size: large;
+        border-color: rgb(0, 0, 0);
+    }
+    
+</style>
+<body>
+    <title>Mote Lights Web GUI</title>
+    <h1>Web Interface for Mote Lights</h1>
+    <div>
+        <input class="picker" type="color" id="colorpicker" value="#0000ff">
+        <button class="btns" type="submit" id="btnset">Set Colour</button>
+        <button class="btnc" type="submit" id="clear">Turn Off</button>
+    </div>
+</body>
+<script>
+    // get the element
+    var element0 = document.getElementById('colorpicker');
+
+    function hexTorgb(hex) {
+        return ['0x' + hex[1] + hex[2] | 0, '0x' + hex[3] + hex[4] | 0, '0x' + hex[5] + hex[6] | 0];
+    }
+
+    // always checking if the element is clicked, if so, send json to python
+    document.getElementById("btnset").addEventListener("click", () => {
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", "methods");
+
+        xhr.setRequestHeader("Accept", "application/json");
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        xhr.onload = () => console.log(xhr.responseText);
+
+        let data = `{
+        "color": "${hexTorgb(element0.value)}"
+        }`;
+        xhr.send(data);
+    }); 
+
+    // get the element
+    var element1 = document.getElementById('clear');
+    // always checking if the element is clicked, if so, send json to python
+    element1.addEventListener("click", () => {
+        let xhr1 = new XMLHttpRequest();
+        xhr1.open("POST", "methods");
+
+        xhr1.setRequestHeader("Accept", "application/json");
+        xhr1.setRequestHeader("Content-Type", "application/json");
+
+        xhr1.onload = () => console.log(xhr1.responseText);
+
+        let data1 = `{
+        "clear": "true"
+        }`;
+        xhr1.send(data1);
+    });
+</script>
